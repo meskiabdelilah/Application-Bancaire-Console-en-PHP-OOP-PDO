@@ -2,12 +2,13 @@ CREATE TABLE clients (
 	id INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
-   	email VARCHAR(100) UNIQUE NOT NULL
+   	email VARCHAR(100) UNIQUE NOT NULL,
+    age INT NOT NULL
 );
 
 CREATE TABLE comptes (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    numero VARCHAR(100) NOT NULL,
+    numero VARCHAR(100) UNIQUE NOT NULL,
     solde FLOAT NOT NULL DEFAULT 0,
     type ENUM('courant', 'epargne') NOT NULL,
     clients_id INT NOT NULL,
