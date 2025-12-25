@@ -1,7 +1,6 @@
 <!-- كل الكلاسات غادي تورث منو -->\
 <?php
-require_once  '../config/database.php';
-
+require_once __DIR__ . '/../config/database.php';
 abstract class baseModel{
 
     protected $db;
@@ -11,6 +10,6 @@ abstract class baseModel{
     }
     abstract public function save();
     abstract public function delete();
-    abstract public  static function find($id);
+    abstract public  static function find($email);
     abstract public static function all();
 }
