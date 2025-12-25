@@ -1,15 +1,15 @@
 <?php
 
-abstract class compte {
+abstract class compte extends baseModel {
     protected $numero;
     protected $solde;
-    protected $client_id;
+    protected $clients_id;
 
-    public function __construct($numero, $solde, $client_id)
+    public function __construct($numero, $solde, $clients_id)
     {
         $this->numero = $numero;
         $this->solde = $solde;
-        $this->client_id = $client_id;
+        $this->clients_id = $clients_id;
     }
     abstract public function deposer($montant);
     abstract public function retirer($montant);
