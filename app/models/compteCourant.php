@@ -2,43 +2,53 @@
 
 class compteCourant extends compte
 {
-    public function __construct($numero, $solde, $clients_id)
+    public function __construct($numero, $solde, $clients_id,$type)
     {
         parent::__construct($numero, $solde, $clients_id);
+        $this->numero = $numero;
+        $this->solde = $solde;
+        $this->clients_id = $clients_id;
+        $this->type = $type;
     }
 
     public function deposer($montant)
     {
+
         if ($montant > 1) {
 
             $this->solde += $montant;
             $this->solde -= 1;
         }
+
+        $stmt = $this->db->prepare("UPDATE comptes set solde = ? where  clients_id = ? ");
+        return $stmt->execute([$this->solde, $this->clients_id]);
     }
     public function retirer($montant)
     {
         if ($this->solde - $montant >= -500) {
             $this->solde -= $montant;
             if ($this->solde - $montant == 0) {
-                echo "Attention: Votre solde est maintenant 0.";
+                echo "Attention: Votre solde est maintenant 0.</br>";
             }
-        } else echo "Operation impossible : Limite de découvert atteinte !";
+        } else echo "Operation impossible : Limite de découvert atteinte ! </br>";
+        $stmt = $this->db->prepare("UPDATE comptes set solde = ? where  clients_id = ? ");
+        return $stmt->execute([$this->solde, $this->clients_id]);
     }
     public function save()
     {
-        $stmt = $this->db->prepare("INSERT INTO  comptes (numero, solde, clients_id) values (?,?,?) ");
-        return $stmt->execute([$this->numero, $this->solde, $this->clients_id]);
+        $stmt = $this->db->prepare("INSERT INTO  comptes (numero, solde, clients_id, type) values (?,?,?,?) ");
+        return $stmt->execute([$this->numero, $this->solde, $this->clients_id, $this->type]);
     }
     public function delete()
     {
-        if($this-> solde != 0){
+        if ($this->solde != 0) {
             echo "Impossible";
             return false;
         }
-            $stmt = $this->db->prepare("DELETE FROM comptes WHERE numero = ?");
-            $result = $stmt->execute([$this->numero]);
-        if($result){
-            echo "valid ";
+        $stmt = $this->db->prepare("DELETE FROM comptes WHERE numero = ?");
+        $result = $stmt->execute([$this->numero]);
+        if ($result) {
+            echo "valid  </br>";
             return true;
         }
         return false;
