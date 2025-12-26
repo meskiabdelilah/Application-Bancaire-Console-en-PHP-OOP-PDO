@@ -1,0 +1,93 @@
+# 🏦 Application Bancaire (Console) - PHP POO & PDO
+
+![PHP]
+![MySQL]
+![PDO]
+
+## 📄 Contexte du Projet
+
+Ce projet est une application bancaire développée en **PHP en mode console**. Elle a été conçue pour simuler les opérations bancaires courantes au sein d'un établissement financier.
+
+L'objectif principal est la mise en pratique de la **Programmation Orientée Objet (POO)**, de l'architecture logicielle et de la manipulation sécurisée de bases de données via **PDO**.
+
+## 🚀 Fonctionnalités Principales
+
+L'application est divisée en trois modules principaux :
+
+### 1. Gestion des Clients 👤
+* Création, modification et suppression de clients.
+* Consultation de la liste et des détails des clients.
+* **Contrainte :** Vérification de l'unicité de l'adresse email.
+* **Règle :** Suppression d'un client autorisée uniquement s'il ne possède aucun compte bancaire.
+
+### 2. Gestion des Comptes 💳
+* Création de comptes bancaires associés à un client existant.
+* Gestion de l'héritage via une classe abstraite `Compte` et deux types spécifiques :
+    * `CompteCourant`
+    * `CompteEpargne`
+* Consultation des comptes globaux ou par client.
+* **Règle :** Suppression d'un compte autorisée uniquement si le **solde est nul (0)**.
+
+### 3. Gestion des Transactions 💸
+* Effectuer des dépôts et des retraits.
+* Consultation de l'historique des transactions.
+* **Sécurité :** Utilisation des transactions PDO (`beginTransaction`, `commit`, `rollback`) pour garantir l'intégrité des données.
+
+---
+
+## ⚖️ Règles Métier (Business Logic)
+
+Le comportement des transactions varie selon le type de compte :
+
+| Type de Compte | Opération | Règle Appliquée |
+| :--- | :--- | :--- |
+| **Compte Courant** | **Dépôt** | Frais fixes de **1 $** appliqués (Crédit = Montant - 1$). |
+| | **Retrait** | Découvert autorisé jusqu'à **-500 $**. |
+| **Compte Épargne** | **Dépôt** | Aucun frais (Crédit = Montant total). |
+| | **Retrait** | **Aucun découvert autorisé**. Solde insuffisant = Opération rejetée. |
+
+---
+
+## 🛠️ Architecture et Conception (UML)
+
+Le projet respecte une modélisation stricte :
+
+### Diagramme de Classes
+* **Client** : Possède plusieurs comptes.
+* **Compte (Abstrait)** : Classe mère contenant les propriétés communes (solde, numéro, titulaire).
+* **CompteCourant** & **CompteEpargne** : Classes filles implémentant les règles spécifiques.
+* **Transaction** : Enregistre chaque opération liée à un compte.
+
+### Diagramme de Cas d'Utilisation
+Les acteurs principaux sont les utilisateurs bancaires pouvant gérer les clients, les comptes et effectuer des opérations financières.
+
+---
+
+## 💻 Installation et Démarrage
+
+### Prérequis
+* PHP 8.x
+* MySQL
+* Composer (optionnel, si utilisé pour l'autoloading)
+
+### Instructions
+
+1.  **Cloner le dépôt :**
+    ```bash
+    git clone [https://github.com/votre-username/nom-du-projet.git](https://github.com/votre-username/nom-du-projet.git)
+    cd nom-du-projet
+    ```
+
+2.  **Configuration de la Base de Données :**
+    * Importez le fichier `database.sql` (situé à la racine) dans votre gestionnaire MySQL (phpMyAdmin, Workbench, etc.).
+    * Configurez vos accès BDD dans le fichier de configuration (ex: `Config/db.php` ou `.env`).
+
+3.  **Lancer l'application :**
+    Ouvrez votre terminal et exécutez :
+    ```bash
+    php index.php
+    # ou
+    php main.php
+    ```
+
+## 📂 Structure du Projet
